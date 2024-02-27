@@ -18,7 +18,7 @@ export default createStore({
         chainId: "",
         chain: "",
         deployHash: "",
-        contractAddress: "0xFddeFa719abE3AeD73DD9485BFc27979Ea6B9Ac7",
+        contractAddress: "0x99E1De5314d700b79e339062B6c66c87015Eb52F",
         isConnected: false,
         username: "",
         userBio: "",
