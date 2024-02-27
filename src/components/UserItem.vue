@@ -1,21 +1,21 @@
 <template>
-    <div>
-        <h1>User address: {{ this.user.address }}</h1>
-        <h1>Username: {{ this.user.name }}</h1>
-    </div>
-    <div>
-        <h1>User BIO: {{ this.user.bio || 'No BIO yet' }}</h1>
-    </div>
-    <div>
-        <img :src="this.user.image" alt="Pinata Image" />
-    </div>
-    <div>
-        <button @click="getUser" class="btn">Refresh</button>
-        <div v-if="isFriend">
-            <button @click="sendRequest" :disabled="buttonDisabled" class="btn">{{ buttonText }}</button>
+    <div class="user-container">
+        <div class="user-details">
+            <h1>User Address: {{ this.user.address }}</h1>
+            <h1>Username: {{ this.user.name }}</h1>
+            <h1>User BIO: {{ this.user.bio || 'No BIO yet' }}</h1>
         </div>
-        <div v-else>
-            <h1>Already friend</h1>
+        <div class="user-image">
+            <img :src="this.user.image" alt="Pinata Image" />
+        </div>
+        <div class="user-actions">
+            <button @click="getUser" class="btn">Refresh</button>
+            <div v-if="isFriend">
+                <button @click="sendRequest" :disabled="buttonDisabled" class="btn">{{ buttonText }}</button>
+            </div>
+            <div v-else>
+                <h1>Already friends</h1>
+            </div>
         </div>
     </div>
 </template>
@@ -73,6 +73,39 @@ export default {
 </script>
 
 <style>
+.user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-details {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-details h1 {
+    margin: 10px 0;
+}
+
+.user-image img {
+    max-width: 150px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-actions h1 {
+    margin-top: 10px;
+}
 /* Add some basic styling to the page */
 body {
     font-family: 'Arial', sans-serif;

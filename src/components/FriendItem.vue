@@ -1,6 +1,6 @@
 <template>
-    <div class="friend-card" >
-        <img @click="searchUser" :src="this.user.image" alt="No Image" class="rounded-circle" width="150" />
+    <div class="friend-card">
+        <img @click="searchUser" :src="this.user.image" alt="No Image" class="rounded-circle" width="100" />
         <div @click="searchUser" class="friend-details">
             <h3>Username: {{ this.user.name }}</h3>
         </div>
@@ -39,7 +39,7 @@ export default {
             this.$router.push(`/user/${this.userAddress}`)
             this.searchAddress = ""
         },
-        async remove(){
+        async remove() {
             await this.removeFriend([this.userAddress])
         }
     },
@@ -66,7 +66,8 @@ export default {
 }
 
 .friend-card img {
-    max-width: 100px;
+    max-width: 80px;
+    /* Reduced image width */
     border-radius: 50%;
 }
 
@@ -83,5 +84,19 @@ export default {
     margin: 5px 0;
     font-size: 14px;
     color: #777;
+}
+
+.btn {
+    background-color: #ff5555;
+    /* Reddish color */
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    /* Larger padding */
+    margin: 10px;
+    /* Larger margin */
+    cursor: pointer;
+    border-radius: 8px;
+    /* Rounded corners */
 }
 </style>

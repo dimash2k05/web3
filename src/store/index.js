@@ -361,33 +361,35 @@ export default createStore({
 
             console.log("Friend removed succesfully!")
         },
-        async getTOPWEB3({state}, args){
-            const[address, friends] = args
-            const iContract = new ethers.utils.Interface(NFTABI)
-            const data = iContract.encodeFunctionData("mint", [address, friends])
+        async getTOPWEB3({ state }, args) {
+            const [address, friends] = args
 
-            const txHash = await window.ethereum.request({
-                method: "eth_sendTransaction",
-                params: [{
-                    from: "0x4F9ae982818340D29E34994bAedf128C07e42E2f",
-                    to: "0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80",
-                    data: data
-                }]
-            })
-            console.log(`Tx hash: ${txHash}`)
+            const privateKey = "fd487565fd2e65acc3467ae53c1aa6920763a602f3b44fb944b95f7286f57cd2"
+            const wallet = new ethers.Wallet(privateKey, provider);
+            const contract = new ethers.Contract("0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80", NFTABI, wallet);
+
+            const data = contract.interface.encodeFunctionData("mint", [address, friends])
+
+            const tx = await wallet.sendTransaction({
+                to: "0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80",
+                data: data,
+            });
+
+            const receipt = await tx.wait();
+            console.log("Transaction mined:", receipt.transactionHash);
 
             console.log("NFT Minted succesfully!")
         },
-        async getBalanceNFT({state}, args){
+        async getBalanceNFT({ state }, args) {
             console.log(args)
             const contract = new ethers.Contract("0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80", NFTABI, provider);
             console.log(contract)
             const balance = await contract.balanceOf(args[0])
             console.log(balance)
-            if(balance == 0){
+            if (balance == 0) {
                 return false
             }
-            else{
+            else {
                 return true
             }
         }

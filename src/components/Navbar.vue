@@ -1,13 +1,18 @@
 <template>
-    <div class="search-container">
-        <input v-model="searchAddress" type="text" placeholder="Search Address" name="searchAddress"
-            class="address-input" />
-        <button @click="searchUser" class="btn">Search</button>
-    </div>
     <div>
-        <button @click="connectWallet" class="btn">Connect Metamask</button>
-        <button @click="$router.push('/')" class="btn">Мой профиль</button>
-        <button @click="$router.push('/requests')" class="btn">Входящие запросы</button>
+        <nav class="navbar">
+            <div class="search-container">
+                <input v-model="searchAddress" type="text" placeholder="Search Address" name="searchAddress"
+                    class="address-input" />
+                <button @click="searchUser" class="btn">Search</button>
+            </div>
+            <div class="nav-buttons">
+                <button @click="connectWallet" class="btn">Connect Metamask</button>
+                <button @click="$router.push('/')" class="btn">Мой профиль</button>
+                <button @click="$router.push('/requests')" class="btn">Входящие запросы</button>
+            </div>
+        </nav>
+        <!-- Rest of your content here -->
     </div>
 </template>
 
@@ -44,7 +49,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* Add some basic styling to the page */
 body {
     font-family: 'Arial', sans-serif;
@@ -80,50 +85,25 @@ textarea {
     font-size: 16px;
 }
 
-/* Style for the image */
-img {
-    max-width: 150px;
-    /* Set your desired maximum width */
-    height: auto;
-    border-radius: 5px;
-    margin-top: 10px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Style for the input field with the file icon */
-.input-field {
-    position: relative;
-    margin: 10px 0;
-}
-
-.input-field i {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: #3498db;
-}
-
-/* Style for the file input */
-.input-field input[type="file"] {
-    padding-left: 30px;
-}
-
-/* Style for the container of the search input and button */
-.search-container {
+/* Style for the navbar */
+.navbar {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    /* Optional: Add margin for separation from other elements */
+    padding: 10px;
+    background-color: #ff5555;
+    /* Reddish color */
 }
 
-/* Adjust the styles for the address input to fit in the same line */
+/* Style for the address input in the navbar */
 .address-input {
     flex: 1;
-    /* Allow the input to take up available space */
     margin-right: 10px;
-    /* Optional: Add margin between input and button */
+}
+
+/* Style for the navigation buttons in the navbar */
+.nav-buttons {
+    display: flex;
+    gap: 10px;
 }
 </style>

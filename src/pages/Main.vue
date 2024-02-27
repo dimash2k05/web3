@@ -1,63 +1,56 @@
 <template>
     <div class="container">
         <div class="main-body">
-            <div class="row gutters-sm">
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex flex-column align-items-center text-center">
-                                <img :src="userImageSrc" alt="Pinata Image" class="rounded-circle" width="150" />
-                                <div class="mt-3">
-                                    <h4>Address: {{ $store.state.address }}</h4>
-                                    <h4>Username: {{ this.user.name }}</h4>
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                        <img :src="userImageSrc" alt="Pinata Image" class="rounded-circle" width="150" />
+                        <div class="mt-3">
+                            <h4>Address: {{ $store.state.address }}</h4>
+                            <h4>Username: {{ this.user.name }}</h4>
 
-                                    <div v-if="hasNFT">
-                                        <a href="https://mumbai.polygonscan.com/address/0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80">
-                                            <img class="rounded-circle" src="../image/nft.jpg" alt="">
-                                        </a>
-                                        <p>Congratulations! You have an NFT.</p>
-                                    </div>
-                                    <div v-else>
-                                        <p>You don't have an NFT yet. Mint one by getting 5 friends!</p>
-                                    </div>
-                                    <button @click="refresh" class="btn">Refresh</button>
-                                    <button @click="toggleNameForm" class="btn">Change Name</button>
-
-                                    <div v-if="showNameForm">
-                                        <input v-model="name" type="text" placeholder="Name" name="first_name" required />
-                                        <button @click="updateName" class="btn">Update name</button>
-                                    </div>
-
+                            <div v-if="hasNFT">
+                                <a href="https://mumbai.polygonscan.com/address/0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80">
+                                    <img class="rounded-circle" src="../image/nft.jpg" alt="">
+                                </a>
+                                <p>Congratulations! You have an NFT.</p>
+                            </div>
+                            <div v-else>
+                                <p>You don't have an NFT yet. Mint one by getting 5 friends!</p>
+                                <div v-if="friends.length >= 5">
+                                    <button @click="getNFT" class="btn">Get NFT</button>
                                 </div>
-                                <div class="mt-3">
-                                    <h4>User BIO: {{ this.user.bio || 'No BIO yet' }}</h4>
-                                    <button @click="toggleBioForm" class="btn">Change Bio</button>
-                                    <button @click="toggleImageForm" class="btn">Change Image</button>
+                            </div>
+                            <button @click="refresh" class="btn">Refresh</button>
+                            <button @click="toggleNameForm" class="btn">Change Name</button>
 
-                                    <div v-if="showBioForm">
-                                        <textarea v-model="bio" placeholder="Bio" name="bio" rows="4"></textarea>
-                                        <button @click="updateBio" class="btn">Update BIO</button>
-                                    </div>
+                            <div v-if="showNameForm" class="form-container">
+                                <input v-model="name" type="text" placeholder="Name" name="first_name" required />
+                                <button @click="updateName" class="btn">Update Name</button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <h4>User BIO: {{ this.user.bio || 'No BIO yet' }}</h4>
+                            <button @click="toggleBioForm" class="btn">Change Bio</button>
+                            <button @click="toggleImageForm" class="btn">Change Image</button>
 
-                                    <div v-if="showImageForm">
-                                        <div class="input-field">
-                                            <i class="fas fa-file"></i>
-                                            <input type="file" @change="handleFileChange" accept=".jpg, .jpeg, .png"
-                                                required />
-                                        </div>
-                                        <button @click="updatePicture" class="btn">Add picture</button>
-                                    </div>
+                            <div v-if="showBioForm" class="form-container">
+                                <textarea v-model="bio" placeholder="Bio" name="bio" rows="4"></textarea>
+                                <button @click="updateBio" class="btn">Update BIO</button>
+                            </div>
 
+                            <div v-if="showImageForm" class="form-container">
+                                <div class="input-field">
+                                    <i class="fas fa-file"></i>
+                                    <input type="file" @change="handleFileChange" accept=".jpg, .jpeg, .png" required />
                                 </div>
-                                <div class="mt-3">
-                                    <h1>Friends</h1>
-                                    <div v-if="friends.length >= 5">
-                                        <button @click="getNFT">Get NFT</button>
-                                    </div>
-                                    <div v-for="address in friends" :key="address">
-                                        <friend-item :userAddress="address" />
-                                    </div>
-                                </div>
+                                <button @click="updatePicture" class="btn-blue">Add Picture</button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <h1>Friends</h1>
+                            <div v-for="address in friends" :key="address">
+                                <friend-item :userAddress="address" />
                             </div>
                         </div>
                     </div>
@@ -66,7 +59,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import { mapActions } from 'vuex'
 export default {
@@ -152,7 +144,6 @@ export default {
 };
 //алия лучшая 
 </script>
-
 <style scoped>
 body {
     margin-top: 20px;
@@ -167,9 +158,6 @@ body {
 
 .card {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
-}
-
-.card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -193,7 +181,7 @@ body {
 }
 
 .gutters-sm>.col,
-.gutters-sm>[class*=col-] {
+.gutters-sm>[class*="col-"] {
     padding-right: 8px;
     padding-left: 8px;
 }
@@ -214,7 +202,6 @@ body {
 .shadow-none {
     box-shadow: none !important;
 }
-</style>
 
 /* Add some basic styling to the page */
 body {
@@ -230,34 +217,43 @@ body {
 
 /* Style for buttons */
 .btn {
-    background-color: #3498db;
+    background-color: #ff5555;
+    /* Reddish color */
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    margin: 5px;
+    padding: 15px 30px;
+    /* Larger padding */
+    margin: 10px;
+    /* Larger margin */
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
+    /* Rounded corners */
 }
 
 /* Style for input fields */
 input,
 textarea {
     width: 100%;
-    padding: 10px;
-    margin: 5px 0;
+    padding: 15px;
+    /* Larger padding */
+    margin: 10px 0;
+    /* Larger margin */
     box-sizing: border-box;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px;
+    /* Rounded corners */
+    font-size: 18px;
+    /* Larger font size */
 }
 
 /* Style for the image */
 img {
     max-width: 150px;
-    /* Set your desired maximum width */
     height: auto;
-    border-radius: 5px;
-    margin-top: 10px;
+    border-radius: 8px;
+    /* Rounded corners */
+    margin-top: 15px;
+    /* Larger margin */
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -266,34 +262,37 @@ img {
 /* Style for the input field with the file icon */
 .input-field {
     position: relative;
-    margin: 10px 0;
+    margin: 15px 0;
+    /* Larger margin */
 }
 
 .input-field i {
     position: absolute;
     top: 50%;
-    left: 10px;
+    left: 15px;
+    /* Larger left position */
     transform: translateY(-50%);
-    color: #3498db;
+    color: #ff5555;
+    /* Reddish color */
 }
 
 /* Style for the file input */
 .input-field input[type="file"] {
-    padding-left: 30px;
+    padding-left: 45px;
+    /* Larger padding */
 }
 
 /* Style for the container of the search input and button */
 .search-container {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    /* Optional: Add margin for separation from other elements */
+    margin-bottom: 20px;
+    /* Larger margin */
 }
 
 /* Adjust the styles for the address input to fit in the same line */
 .address-input {
     flex: 1;
-    /* Allow the input to take up available space */
-    margin-right: 10px;
-    /* Optional: Add margin between input and button */
-}
+    margin-right: 15px;
+    /* Larger margin */
+}</style>
