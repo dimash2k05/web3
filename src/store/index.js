@@ -33,6 +33,7 @@ export default createStore({
     },
     actions: {
         async connectWallet({ state }) {
+            try {
             // проверяем, что есть метамаск и подключаем его
             if (typeof window.ethereum !== 'undefined') {
                 console.log("Ethereum client installed!")
@@ -105,6 +106,7 @@ export default createStore({
             })
 
             ethereum.on('chainChanged', async (chainId) => {
+                try{
                 // создаём провайдера
                 provider = new ethers.providers.Web3Provider(ethereum)
                 // получаем параметры сети 
@@ -137,7 +139,15 @@ export default createStore({
                     provider = new ethers.providers.JsonRpcProvider("https://eth-sepolia.g.alchemy.com/v2/UqJsOz1IQnRrGqV9bh7Q7ziNR2rN7Pi7")
                     alert(`chain changed to ${state.chain}`)
                 }
+            }
+            catch(err) {
+
+            }  
             })
+            }
+            catch( err) {
+                
+            }
         },
         // async changeNetwork({state}, chainId) {
         //     console.log(chainId)
@@ -202,6 +212,7 @@ export default createStore({
             }
         },
         async registerProfile({ state }, args) {
+            try {
             const [name] = args
 
             const iContract = new ethers.utils.Interface(ABI)
@@ -218,8 +229,13 @@ export default createStore({
             console.log(`Tx hash: ${txHash}`)
 
             console.log("Registered succesfully!")
+            }
+            catch(err) {
+                
+            }
         },
         async updateProfileName({ state }, args) {
+            try {
             const [newName] = args
             const iContract = new ethers.utils.Interface(ABI)
             const data = iContract.encodeFunctionData("updateProfileName", [newName])
@@ -235,9 +251,13 @@ export default createStore({
             console.log(`Tx hash: ${txHash}`)
 
             console.log("Name changed succesfully!")
+        }
+        catch(err) {
 
+        }
         },
         async updateProfileBio({ state }, args) {
+            try {
             const [newBio] = args
             const iContract = new ethers.utils.Interface(ABI)
             const data = iContract.encodeFunctionData("updateProfileBio", [newBio])
@@ -253,7 +273,10 @@ export default createStore({
             console.log(`Tx hash: ${txHash}`)
 
             console.log("BIO changed succesfully!")
+            }
+            catch(err) {
 
+            }
         },
         async updateProfilePicture({ dispatch, state }, args) {
             const [ipfsHash] = args
@@ -279,27 +302,29 @@ export default createStore({
             }
         },
         async getUserProfile({ state, dispatch }, address) {
-            console.log(address)
-            console.log("Store")
-            const [username, userBio, userProfilePicture, userFriends] = await state.contest.getUserProfile(address[0])
-            console.log(userProfilePicture)
-            let url = await dispatch("getImageFromPinata", userProfilePicture)
-            if (url === "https://rose-decisive-louse-962.mypinata.cloud/ipfs/") {
-                url = "https://rose-decisive-louse-962.mypinata.cloud/ipfs/bafkreiawq52hlg3em6gduabgmq6z72yzoimjqagrcvxzdd3zvxjfrxjd3u"
+            try {
+                const [username, userBio, userProfilePicture, userFriends] = await state.contest.getUserProfile(address[0])
+                let url = await dispatch("getImageFromPinata", userProfilePicture)
+                if (url === "https://rose-decisive-louse-962.mypinata.cloud/ipfs/") {
+                    url = "https://rose-decisive-louse-962.mypinata.cloud/ipfs/bafkreiawq52hlg3em6gduabgmq6z72yzoimjqagrcvxzdd3zvxjfrxjd3u"
+                }
+                else {
+                    url = await dispatch("getImageFromPinata", userProfilePicture)
+                }
+                const user = {
+                    address: address[0],
+                    name: username,
+                    bio: userBio,
+                    image: url,
+                    friends: userFriends
+                }
+                return (user)
+            } catch(err) {
+                
             }
-            else {
-                url = await dispatch("getImageFromPinata", userProfilePicture)
-            }
-            const user = {
-                address: address[0],
-                name: username,
-                bio: userBio,
-                image: url,
-                friends: userFriends
-            }
-            return (user)
         },
         async sendFriendRequest({ state, dispatch }, address) {
+            try {
             const iContract = new ethers.utils.Interface(ABI)
             const data = iContract.encodeFunctionData("sendFriendRequest", [address])
 
@@ -314,21 +339,36 @@ export default createStore({
             console.log(`Tx hash: ${txHash}`)
 
             console.log("Friend request sent succesfully!")
+            }
+            catch(err) {
+
+            }
         },
         async getFriendRequests({ state }, address) {
+            try {
             let friendRequests = []
             friendRequests = await state.contest.getFriendRequests(address[0])
             console.log(friendRequests)
             return friendRequests
+            }
+            catch(err) {
+
+            }
         },
         async getincomingFriendRequests({ state }, address) {
+            try {
             console.log(address)
             let incomingFriendRequests = []
             incomingFriendRequests = await state.contest.getincomingFriendRequests(address[0])
             console.log(incomingFriendRequests)
             return incomingFriendRequests
+            }
+            catch (err) {
+
+            }
         },
         async acceptFriendRequest({ state, dispatch }, address) {
+            try {
             const iContract = new ethers.utils.Interface(ABI)
             const data = iContract.encodeFunctionData("acceptFriendRequest", [address[0]])
 
@@ -343,8 +383,13 @@ export default createStore({
             console.log(`Tx hash: ${txHash}`)
 
             console.log("Friend accepted succesfully!")
+            }
+            catch(err) {
+
+            }
         },
         async declineFriendRequest({ state, dispatch }, address) {
+            try {
             const iContract = new ethers.utils.Interface(ABI)
             const data = iContract.encodeFunctionData("declineFriendRequest", [address[0]])
 
@@ -359,8 +404,13 @@ export default createStore({
             console.log(`Tx hash: ${txHash}`)
 
             console.log("Friend declined succesfully!")
+            }
+            catch(err) {
+
+            }
         },
         async removeFriend({ state, dispatch }, address) {
+            try {
             const iContract = new ethers.utils.Interface(ABI)
             const data = iContract.encodeFunctionData("removeFriend", [address[0]])
 
@@ -375,8 +425,13 @@ export default createStore({
             console.log(`Tx hash: ${txHash}`)
 
             console.log("Friend removed succesfully!")
+            }
+            catch(err) {
+
+            }
         },
         async getTOPWEB3({ state }, args) {
+            try {
             const [address, friends] = args
 
             const privateKey = "e1ca3ee8ace60df272d50b76e85c7c995626d3db95e10b79a1de765456335057"
@@ -394,8 +449,13 @@ export default createStore({
             console.log("Transaction mined:", receipt.transactionHash);
 
             console.log("NFT Minted succesfully!")
+            }
+            catch(err) {
+
+            }
         },
         async getBalanceNFT({ state }, args) {
+            try {
             console.log(args)
             const contract = new ethers.Contract("0xeC4AF63278F73ac6fF771C968ee2cebAEBb6ebeE", NFTABI, provider);
             console.log(contract)
@@ -406,6 +466,10 @@ export default createStore({
             }
             else {
                 return true
+            }
+            }
+            catch(err) {
+
             }
         }
     },
