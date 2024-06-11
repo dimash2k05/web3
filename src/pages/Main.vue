@@ -13,24 +13,28 @@
                                 <a href="https://mumbai.polygonscan.com/address/0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80">
                                     <img class="rounded-circle" src="../image/nft.jpg" alt="">
                                 </a>
-                                <p>Congratulations! You have an NFT.</p>
+                                <p>TOPWEB3 NFT</p>
                             </div>
                             <div v-else>
-                                <p>You don't have an NFT yet. Mint one by getting 5 friends!</p>
                                 <div v-if="friends.length >= 5">
                                     <button @click="getNFT" class="btn">Get NFT</button>
                                 </div>
                             </div>
                             <button @click="refresh" class="btn">Refresh</button>
+
+                        </div>
+                        <div class="mt-3">
+                            <h4>User BIO: {{ this.user.bio || 'No BIO yet' }}</h4>
+
+                        </div>
+
+                        <div class="mt-3">
                             <button @click="toggleNameForm" class="btn">Change Name</button>
 
                             <div v-if="showNameForm" class="form-container">
                                 <input v-model="name" type="text" placeholder="Name" name="first_name" required />
                                 <button @click="updateName" class="btn">Update Name</button>
                             </div>
-                        </div>
-                        <div class="mt-3">
-                            <h4>User BIO: {{ this.user.bio || 'No BIO yet' }}</h4>
                             <button @click="toggleBioForm" class="btn">Change Bio</button>
                             <button @click="toggleImageForm" class="btn">Change Image</button>
 
@@ -44,9 +48,10 @@
                                     <i class="fas fa-file"></i>
                                     <input type="file" @change="handleFileChange" accept=".jpg, .jpeg, .png" required />
                                 </div>
-                                <button @click="updatePicture" class="btn-blue">Add Picture</button>
+                                <button @click="updatePicture" class="btn">Add Picture</button>
                             </div>
                         </div>
+
                         <div class="mt-3">
                             <h1>Friends</h1>
                             <div v-for="address in friends" :key="address">
@@ -78,7 +83,7 @@ export default {
     },
     computed: {
         userImageSrc() {
-            return this.user.image ? this.user.image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png';
+            return this.user.image ? this.user.image : 'https://rose-decisive-louse-962.mypinata.cloud/ipfs/bafkreiawq52hlg3em6gduabgmq6z72yzoimjqagrcvxzdd3zvxjfrxjd3u';
         },
     },
     methods: {
@@ -146,10 +151,16 @@ export default {
 </script>
 <style scoped>
 body {
-    margin-top: 20px;
-    color: #1a202c;
-    text-align: left;
-    background-color: #e2e8f0;
+    font-family: 'Arial', sans-serif;
+    background-color: #4caf50;
+    /* Green color */
+    color: #fff;
+    /* White text color for better contrast */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .main-body {
@@ -204,7 +215,7 @@ body {
 }
 
 /* Add some basic styling to the page */
-body {
+.container {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     color: #333;
@@ -213,6 +224,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
+    width: 100%;
 }
 
 /* Style for buttons */
@@ -295,4 +308,5 @@ img {
     flex: 1;
     margin-right: 15px;
     /* Larger margin */
-}</style>
+}
+</style>

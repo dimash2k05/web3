@@ -1,8 +1,8 @@
 <template>
     <div class="friend-card">
-        <img @click="searchUser" :src="this.user.image" alt="No Image" class="rounded-circle" width="100" />
+        <img @click="searchUser" :src="userImageSrc()" alt="No Image" class="rounded-circle"/>
         <div @click="searchUser" class="friend-details">
-            <h3>Username: {{ this.user.name }}</h3>
+            <h3>Username: {{ user.name }}</h3>
         </div>
         <button class="btn" @click="remove">Delete from friends</button>
     </div>
@@ -41,6 +41,14 @@ export default {
         },
         async remove() {
             await this.removeFriend([this.userAddress])
+        },
+        userImageSrc() {
+            if (!this.user.image || this.user.image === 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png') {
+                return 'https://rose-decisive-louse-962.mypinata.cloud/ipfs/bafkreiawq52hlg3em6gduabgmq6z72yzoimjqagrcvxzdd3zvxjfrxjd3u';
+            }
+            console.log("TUPOI OR WHAT?");
+            console.log(this.user.image);
+            return this.user.image;
         }
     },
     async mounted() {

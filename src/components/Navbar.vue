@@ -1,15 +1,14 @@
 <template>
-    <div>
+    <div class="container">
         <nav class="navbar">
-            <div class="search-container">
+            <div class="nav-buttons">
                 <input v-model="searchAddress" type="text" placeholder="Search Address" name="searchAddress"
                     class="address-input" />
                 <button @click="searchUser" class="btn">Search</button>
-            </div>
-            <div class="nav-buttons">
-                <button @click="connectWallet" class="btn">Connect Metamask</button>
-                <button @click="$router.push('/')" class="btn">Мой профиль</button>
-                <button @click="$router.push('/requests')" class="btn">Входящие запросы</button>
+                <button @click="connectWallet" class="btn">Connect wallet</button>
+                <!-- <button @click="change" class="btn">Change chain to mainnet</button> -->
+                <button @click="$router.push('/')" class="btn">My Profile</button>
+                <button @click="$router.push('/requests')" class="btn">Pending Request</button>
             </div>
         </nav>
         <!-- Rest of your content here -->
@@ -33,6 +32,7 @@ export default {
         ...mapActions({
             connectWallet: "connectWallet",
             getUserProfile: "getUserProfile",
+            // changeNetwork : "changeNetwork"
         }),
         handleFileChange(event) {
             this.selectedFile = event.target.files[0];
@@ -44,29 +44,25 @@ export default {
         async searchUser() {
             this.$router.push(`/user/${this.searchAddress}`)
             this.searchAddress = ""
-        }
+        },
+        // async change(){
+        //     await this.changeNetwork([1])
+        // }
     },
 };
 </script>
 
 <style scoped>
 /* Add some basic styling to the page */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Style for buttons */
+.container {
+    flex: 1;
+    width: 100%;
 }
 
-/* Style for buttons */
 .btn {
-    background-color: #3498db;
     color: #fff;
-    border: none;
+    border: 2px solid #fff;
     padding: 10px 20px;
     margin: 5px;
     cursor: pointer;

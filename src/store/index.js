@@ -10,7 +10,7 @@ const formData = new FormData();
 
 const PinataJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIxYzUxOTRhNS1mYjVjLTQ3NDktYTk3ZS1hZGI5MGQ5MGZmYzkiLCJlbWFpbCI6Im11YWZpa2RAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjlmOWRkZGFjNzAwYmRkMTIwZTNhIiwic2NvcGVkS2V5U2VjcmV0IjoiMTdjODYyYjY5YjIxZTFhYWY2N2FjYzcxNDE1Yzc4MzhhYWViOWJlODQyMDliMDkwNDRmNmQwMjU0ZWY3MDBlOCIsImlhdCI6MTcwODgxMTcyNH0.VXxgf2ScirkXWh79XGAAt1nyTsAuBvkqKnR6KwpHrYI";
 const ethers = require('ethers')
-let provider = new ethers.providers.JsonRpcProvider("https://polygon-mumbai.g.alchemy.com/v2/wusrTgSFSsScFKTK6Nqa5rFoisfYXjPW")
+let provider = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/TS8hjejOOd_2UNj46exSTVtqS7-JxYrT")
 
 export default createStore({
     state: {
@@ -18,7 +18,7 @@ export default createStore({
         chainId: "",
         chain: "",
         deployHash: "",
-        contractAddress: "0x99E1De5314d700b79e339062B6c66c87015Eb52F",
+        contractAddress: "0x01a1A45FA351919951Beb1F2a24e577AAA936282",
         isConnected: false,
         username: "",
         userBio: "",
@@ -139,6 +139,21 @@ export default createStore({
                 }
             })
         },
+        // async changeNetwork({state}, chainId) {
+        //     console.log(chainId)
+        //     if (typeof window.ethereum !== 'undefined') {
+        //         try {
+        //             await window.ethereum.request({
+        //                 method: 'wallet_switchEthereumChain',
+        //                 params: [{ chainId: `0x${chainId[0].toString(16)}` }],
+        //             });
+        //         } catch (error) {
+        //             console.error('Error switching network:', error);
+        //         }
+        //     } else {
+        //         console.error('MetaMask not detected. Please install MetaMask extension.');
+        //     }
+        // },
         async uploadFileToPinata({ state }, args) {
             try {
                 const [file] = args
@@ -270,7 +285,7 @@ export default createStore({
             console.log(userProfilePicture)
             let url = await dispatch("getImageFromPinata", userProfilePicture)
             if (url === "https://rose-decisive-louse-962.mypinata.cloud/ipfs/") {
-                url = "'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png'"
+                url = "https://rose-decisive-louse-962.mypinata.cloud/ipfs/bafkreiawq52hlg3em6gduabgmq6z72yzoimjqagrcvxzdd3zvxjfrxjd3u"
             }
             else {
                 url = await dispatch("getImageFromPinata", userProfilePicture)
@@ -364,14 +379,14 @@ export default createStore({
         async getTOPWEB3({ state }, args) {
             const [address, friends] = args
 
-            const privateKey = "fd487565fd2e65acc3467ae53c1aa6920763a602f3b44fb944b95f7286f57cd2"
+            const privateKey = "e1ca3ee8ace60df272d50b76e85c7c995626d3db95e10b79a1de765456335057"
             const wallet = new ethers.Wallet(privateKey, provider);
-            const contract = new ethers.Contract("0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80", NFTABI, wallet);
+            const contract = new ethers.Contract("0xeC4AF63278F73ac6fF771C968ee2cebAEBb6ebeE", NFTABI, wallet);
 
             const data = contract.interface.encodeFunctionData("mint", [address, friends])
 
             const tx = await wallet.sendTransaction({
-                to: "0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80",
+                to: "0xeC4AF63278F73ac6fF771C968ee2cebAEBb6ebeE",
                 data: data,
             });
 
@@ -382,7 +397,7 @@ export default createStore({
         },
         async getBalanceNFT({ state }, args) {
             console.log(args)
-            const contract = new ethers.Contract("0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80", NFTABI, provider);
+            const contract = new ethers.Contract("0xeC4AF63278F73ac6fF771C968ee2cebAEBb6ebeE", NFTABI, provider);
             console.log(contract)
             const balance = await contract.balanceOf(args[0])
             console.log(balance)
