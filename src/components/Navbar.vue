@@ -9,6 +9,7 @@
                 <!-- <button @click="change" class="btn">Change chain to mainnet</button> -->
                 <button @click="$router.push('/')" class="btn">My Profile</button>
                 <button @click="$router.push('/requests')" class="btn">Pending Request</button>
+                <button @click="$router.push('/sendMoney')" class="btn">Send Ether</button>
             </div>
         </nav>
         <!-- Rest of your content here -->

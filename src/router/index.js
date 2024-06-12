@@ -3,6 +3,7 @@ import RegFormView from '@/pages/RegForm.vue'
 import MainVue from '@/pages/Main.vue'
 import UserPage from "@/pages/UserPage.vue"
 import Requests from "@/pages/Requests.vue"
+import SendMoney from "@/pages/SendMoney.vue"
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/requests',
     name: 'requests',
     component: Requests
+  },
+  {
+    path: '/sendMoney',
+    name: 'sendMoney',
+    component: SendMoney
   }
 ]
 

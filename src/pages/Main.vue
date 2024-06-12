@@ -8,7 +8,7 @@
                         <div class="mt-3">
                             <h4>Address: {{ $store.state.address }}</h4>
                             <h4>Username: {{ this.user.name }}</h4>
-
+                            <h4> Balance: {{ this.balance }} </h4>
                             <div v-if="hasNFT">
                                 <a href="https://mumbai.polygonscan.com/address/0xDbB0e637bcEaE22EC53890BBAF213a3a46Cb8c80">
                                     <img class="rounded-circle" src="../image/nft.jpg" alt="">
@@ -78,7 +78,8 @@ export default {
             showNameForm: false,
             showBioForm: false,
             showImageForm: false,
-            hasNFT: false
+            hasNFT: false,
+            balance: 0.0
         };
     },
     computed: {
@@ -96,7 +97,8 @@ export default {
             uploadFileToPinata: "uploadFileToPinata",
             getImageFromPinata: "getImageFromPinata",
             getTOPWEB3: "getTOPWEB3",
-            getBalanceNFT: "getBalanceNFT"
+            getBalanceNFT: "getBalanceNFT",
+            getSepoliaEthBalance: "getSepoliaEthBalance"
         }),
         handleFileChange(event) {
             this.selectedFile = event.target.files[0];
@@ -111,6 +113,9 @@ export default {
             console.log(this.selectedFile)
             const ipfsHash = await this.uploadFileToPinata([this.selectedFile])
             await this.updateProfilePicture([ipfsHash])
+        },
+        async updateBalance() {
+            this.balance = await this.getSepoliaEthBalance([this.$store.state.address])
         },
         async getUser() {
             console.log(this.$store.state.address)
@@ -138,16 +143,10 @@ export default {
         async refresh() {
             await this.getBalance()
             await this.getUser()
+            await this.updateBalance()
         }
     },
-    // async mounted() {
-    //     this.getBalance()
-    // },
-    // watch: {
-    //     'this.hasNFT': 'getBalance'
-    // }
 };
-//алия лучшая 
 </script>
 <style scoped>
 body {

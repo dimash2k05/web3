@@ -3,6 +3,7 @@ import { ABI } from "@/contracts/Web3Linkedin.abi.js"
 import { bytecode } from "@/contracts/Web3Linkedin.bin.js"
 import { NFTABI } from '@/contracts/MERC721.abi';
 import { NFTbytecode } from '@/contracts/MERC721.bin';
+
 const FormData = require('form-data');
 
 const axios = require("axios");
@@ -386,6 +387,24 @@ export default createStore({
             }
             catch(err) {
 
+            }
+        },
+        async convertToWei({ state, dispatch }, amount) {
+            if (amount == null)
+                amount = '0';
+            const amountInWei = ethers.utils.parseEther(amount).toHexString();
+            return amountInWei;
+        },
+        async getSepoliaEthBalance({ state, dispatch}, address) {
+            try {
+                let account = address[0];
+                let result = await ethereum.request({ method: 'eth_getBalance', params: [account, 'latest'] });
+                let wei = parseInt(result, 16); 
+                let balance = wei / (10 ** 18);
+                return balance;
+            } catch (error) {
+                console.error('Error getting balance:', error);
+                return 0;
             }
         },
         async declineFriendRequest({ state, dispatch }, address) {

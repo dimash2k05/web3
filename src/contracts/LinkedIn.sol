@@ -8,7 +8,7 @@ contract Web3Linkedin {
         string profilePictureCID;
         address[] friends;
         address[] friendRequests;
-        address[] incomingFriendRequests;  
+        address[] incomingFriendRequests;
     }
 
     mapping(address => UserProfile) public users;
